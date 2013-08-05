@@ -1883,6 +1883,9 @@ int query_NPOT_capability( void )
 			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_ARB_texture_non_power_of_two" ) )
 			)
+		&&
+			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+				"GL_OES_texture_npot" ) )
 		{
 			/*	not there, flag the failure	*/
 			has_NPOT_capability = SOIL_CAPABILITY_NONE;
@@ -1938,6 +1941,9 @@ int query_cubemap_capability( void )
 			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_EXT_texture_cube_map" ) )
 			)
+		#ifdef GL_ES_VERSION_2_0
+		&& (false) /* GL ES 2.0 supports cubemaps, always enable */
+		#endif
 		{
 			/*	not there, flag the failure	*/
 			has_cubemap_capability = SOIL_CAPABILITY_NONE;
