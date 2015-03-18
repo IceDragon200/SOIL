@@ -1,7 +1,7 @@
 solution "SOIL"
   location "build"
   configurations { "Debug", "Release" }
-  project "SIL"
+  project "SOIL"
     language "C"
     kind "StaticLib"
     links { "GL" }
