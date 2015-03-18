@@ -15,3 +15,18 @@ solution "SOIL"
     configuration "Release"
       defines { "NDEBUG" }
       flags { "Optimize", "ExtraWarnings"}
+
+  project "test"
+    language "C++"
+    kind "ConsoleApp"
+    links { "GL", "SOIL" }
+    includedirs { "include", "test", "../sil/include" }
+    files { "test/test_SOIL.cpp" }
+    targetdir "build"
+    configuration "Debug"
+      defines { "DEBUG" }
+      flags { "Symbols", "ExtraWarnings"}
+
+    configuration "Release"
+      defines { "NDEBUG" }
+      flags { "Optimize", "ExtraWarnings"}
