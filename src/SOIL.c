@@ -43,6 +43,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+static inline char*
+soil_strstr(char *__haystack, char *__needle) {
+	if (__haystack && __needle) {
+		return strstr(__haystack, __needle);
+	}
+	return NULL;
+}
+
 /*	error reporting	*/
 char *result_string_pointer = "SOIL initialized";
 
@@ -1882,10 +1890,10 @@ int query_NPOT_capability( void )
 	{
 		/*	we haven't yet checked for the capability, do so	*/
 		if(
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_ARB_texture_non_power_of_two" ) )
 		&&
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_OES_texture_npot" ) )
 			)
 		{
@@ -1908,13 +1916,13 @@ int query_tex_rectangle_capability( void )
 	{
 		/*	we haven't yet checked for the capability, do so	*/
 		if(
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_ARB_texture_rectangle" ) )
 		&&
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_EXT_texture_rectangle" ) )
 		&&
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_NV_texture_rectangle" ) )
 			)
 		{
@@ -1937,10 +1945,10 @@ int query_cubemap_capability( void )
 	{
 		/*	we haven't yet checked for the capability, do so	*/
 		if(
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_ARB_texture_cube_map" ) )
 		&&
-			(NULL == strstr( (char const*)glGetString( GL_EXTENSIONS ),
+			(NULL == soil_strstr( (char const*)glGetString( GL_EXTENSIONS ),
 				"GL_EXT_texture_cube_map" ) )
 			)
 		#ifdef GL_ES_VERSION_2_0
@@ -1965,7 +1973,7 @@ int query_DXT_capability( void )
 	if( has_DXT_capability == SOIL_CAPABILITY_UNKNOWN )
 	{
 		/*	we haven't yet checked for the capability, do so	*/
-		if( NULL == strstr(
+		if( NULL == soil_strstr(
 				(char const*)glGetString( GL_EXTENSIONS ),
 				"GL_EXT_texture_compression_s3tc" ) )
 		{
