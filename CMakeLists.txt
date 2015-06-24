@@ -4,7 +4,7 @@ include_directories(
   "include"
 )
 
-add_library(SOIL
+add_library(SOIL STATIC
   "src/SOIL.c"
   "src/image_DXT.c"
   "src/image_helper.c"
