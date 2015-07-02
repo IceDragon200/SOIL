@@ -44,7 +44,7 @@
 #include <string.h>
 
 static inline char*
-soil_strstr(char *__haystack, char *__needle) {
+soil_strstr(const char *__haystack, const char *__needle) {
 	if (__haystack && __needle) {
 		return strstr(__haystack, __needle);
 	}
@@ -53,6 +53,12 @@ soil_strstr(char *__haystack, char *__needle) {
 
 /*	error reporting	*/
 char *result_string_pointer = "SOIL initialized";
+
+static void
+SOIL_set_result_string(const char* str)
+{
+	result_string_pointer = str;
+}
 
 /*	for loading cube maps	*/
 enum{
@@ -155,7 +161,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string((char*)stbi_failure_reason());
 		return 0;
 	}
 	/*	OK, make it a texture!	*/
@@ -190,7 +196,7 @@ unsigned int
 //		(fake_HDR_format != SOIL_HDR_RGBdivA) &&
 //		(fake_HDR_format != SOIL_HDR_RGBdivA2) )
 //	{
-//		result_string_pointer = "Invalid fake HDR format specified";
+//		SOIL_set_result_string("Invalid fake HDR format specified");
 //		return 0;
 //	}
 //	/*	try to load the image (only the HDR type) */
@@ -199,7 +205,7 @@ unsigned int
 //	if( NULL == img )
 //	{
 //		/*	image loading failed	*/
-//		result_string_pointer = stbi_failure_reason();
+//		SOIL_set_result_string(stbi_failure_reason());
 //		return 0;
 //	}
 //	/* the load worked, do I need to convert it? */
@@ -265,7 +271,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 		return 0;
 	}
 	/*	OK, make it a texture!	*/
@@ -306,13 +312,13 @@ unsigned int
 		(z_pos_file == NULL) ||
 		(z_neg_file == NULL) )
 	{
-		result_string_pointer = "Invalid cube map files list";
+		SOIL_set_result_string("Invalid cube map files list");
 		return 0;
 	}
 	/*	capability checking	*/
 	if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 	{
-		result_string_pointer = "No cube map capability present";
+		SOIL_set_result_string("No cube map capability present");
 		return 0;
 	}
 	/*	1st face: try to load the image	*/
@@ -325,7 +331,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 		return 0;
 	}
 	/*	upload the texture, and create a texture ID if necessary	*/
@@ -349,7 +355,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -374,7 +380,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -399,7 +405,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -424,7 +430,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -449,7 +455,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -497,13 +503,13 @@ unsigned int
 		(z_pos_buffer == NULL) ||
 		(z_neg_buffer == NULL) )
 	{
-		result_string_pointer = "Invalid cube map buffers list";
+		SOIL_set_result_string("Invalid cube map buffers list");
 		return 0;
 	}
 	/*	capability checking	*/
 	if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 	{
-		result_string_pointer = "No cube map capability present";
+		SOIL_set_result_string("No cube map capability present");
 		return 0;
 	}
 	/*	1st face: try to load the image	*/
@@ -518,7 +524,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 		return 0;
 	}
 	/*	upload the texture, and create a texture ID if necessary	*/
@@ -544,7 +550,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -571,7 +577,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -598,7 +604,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -625,7 +631,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -652,7 +658,7 @@ unsigned int
 		if( NULL == img )
 		{
 			/*	image loading failed	*/
-			result_string_pointer = stbi_failure_reason();
+			SOIL_set_result_string(stbi_failure_reason());
 			return 0;
 		}
 		/*	upload the texture, but reuse the assigned texture ID	*/
@@ -685,7 +691,7 @@ unsigned int
 	/*	error checking	*/
 	if( filename == NULL )
 	{
-		result_string_pointer = "Invalid single cube map file name";
+		SOIL_set_result_string("Invalid single cube map file name");
 		return 0;
 	}
 	/*	does the user want direct uploading of the image as a DDS file?	*/
@@ -712,14 +718,14 @@ unsigned int
 			(face_order[i] != 'U') &&
 			(face_order[i] != 'D') )
 		{
-			result_string_pointer = "Invalid single cube map face order";
+			SOIL_set_result_string("Invalid single cube map face order");
 			return 0;
 		};
 	}
 	/*	capability checking	*/
 	if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 	{
-		result_string_pointer = "No cube map capability present";
+		SOIL_set_result_string("No cube map capability present");
 		return 0;
 	}
 	/*	1st off, try to load the full image	*/
@@ -732,7 +738,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 		return 0;
 	}
 	/*	now, does this image have the right dimensions?	*/
@@ -740,7 +746,7 @@ unsigned int
 		(6*width != height) )
 	{
 		SOIL_free_image_data( img );
-		result_string_pointer = "Single cubemap image must have a 6:1 ratio";
+		SOIL_set_result_string("Single cubemap image must have a 6:1 ratio");
 		return 0;
 	}
 	/*	try the image split and create	*/
@@ -771,7 +777,7 @@ unsigned int
 	/*	error checking	*/
 	if( buffer == NULL )
 	{
-		result_string_pointer = "Invalid single cube map buffer";
+		SOIL_set_result_string("Invalid single cube map buffer");
 		return 0;
 	}
 	/*	does the user want direct uploading of the image as a DDS file?	*/
@@ -800,14 +806,14 @@ unsigned int
 			(face_order[i] != 'U') &&
 			(face_order[i] != 'D') )
 		{
-			result_string_pointer = "Invalid single cube map face order";
+			SOIL_set_result_string("Invalid single cube map face order");
 			return 0;
 		};
 	}
 	/*	capability checking	*/
 	if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 	{
-		result_string_pointer = "No cube map capability present";
+		SOIL_set_result_string("No cube map capability present");
 		return 0;
 	}
 	/*	1st off, try to load the full image	*/
@@ -823,7 +829,7 @@ unsigned int
 	if( NULL == img )
 	{
 		/*	image loading failed	*/
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 		return 0;
 	}
 	/*	now, does this image have the right dimensions?	*/
@@ -831,7 +837,7 @@ unsigned int
 		(6*width != height) )
 	{
 		SOIL_free_image_data( img );
-		result_string_pointer = "Single cubemap image must have a 6:1 ratio";
+		SOIL_set_result_string("Single cubemap image must have a 6:1 ratio");
 		return 0;
 	}
 	/*	try the image split and create	*/
@@ -861,7 +867,7 @@ unsigned int
 	/*	error checking	*/
 	if( data == NULL )
 	{
-		result_string_pointer = "Invalid single cube map image data";
+		SOIL_set_result_string("Invalid single cube map image data");
 		return 0;
 	}
 	/*	face order checking	*/
@@ -874,21 +880,21 @@ unsigned int
 			(face_order[i] != 'U') &&
 			(face_order[i] != 'D') )
 		{
-			result_string_pointer = "Invalid single cube map face order";
+			SOIL_set_result_string("Invalid single cube map face order");
 			return 0;
 		};
 	}
 	/*	capability checking	*/
 	if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 	{
-		result_string_pointer = "No cube map capability present";
+		SOIL_set_result_string("No cube map capability present");
 		return 0;
 	}
 	/*	now, does this image have the right dimensions?	*/
 	if( (width != 6*height) &&
 		(6*width != height) )
 	{
-		result_string_pointer = "Single cubemap image must have a 6:1 ratio";
+		SOIL_set_result_string("Single cubemap image must have a 6:1 ratio");
 		return 0;
 	}
 	/*	which way am I stepping?	*/
@@ -1034,7 +1040,7 @@ unsigned int
 		} else
 		{
 			/*	can't do it, and that is a breakable offense (uv coords use pixels instead of [0,1]!)	*/
-			result_string_pointer = "Texture Rectangle extension unsupported";
+			SOIL_set_result_string("Texture Rectangle extension unsupported");
 			return 0;
 		}
 	}
@@ -1367,11 +1373,11 @@ unsigned int
 			check_for_GL_errors( "GL_TEXTURE_WRAP_*" );
 		}
 		/*	done	*/
-		result_string_pointer = "Image loaded as an OpenGL texture";
+		SOIL_set_result_string("Image loaded as an OpenGL texture");
 	} else
 	{
 		/*	failed	*/
-		result_string_pointer = "Failed to generate an OpenGL texture name; missing OpenGL context?";
+		SOIL_set_result_string("Failed to generate an OpenGL texture name; missing OpenGL context?");
 	}
 	SOIL_free_image_data( img );
 	return tex_id;
@@ -1393,17 +1399,17 @@ int
 	/*	error checks	*/
 	if( (width < 1) || (height < 1) )
 	{
-		result_string_pointer = "Invalid screenshot dimensions";
+		SOIL_set_result_string("Invalid screenshot dimensions");
 		return 0;
 	}
 	if( (x < 0) || (y < 0) )
 	{
-		result_string_pointer = "Invalid screenshot location";
+		SOIL_set_result_string("Invalid screenshot location");
 		return 0;
 	}
 	if( filename == NULL )
 	{
-		result_string_pointer = "Invalid screenshot filename";
+		SOIL_set_result_string("Invalid screenshot filename");
 		return 0;
 	}
 
@@ -1446,10 +1452,10 @@ unsigned char*
 			width, height, channels, force_channels );
 	if( result == NULL )
 	{
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 	} else
 	{
-		result_string_pointer = "Image loaded";
+		SOIL_set_result_string("Image loaded");
 	}
 	return result;
 }
@@ -1469,10 +1475,10 @@ unsigned char*
 				force_channels );
 	if( result == NULL )
 	{
-		result_string_pointer = stbi_failure_reason();
+		SOIL_set_result_string(stbi_failure_reason());
 	} else
 	{
-		result_string_pointer = "Image loaded from memory";
+		SOIL_set_result_string("Image loaded from memory");
 	}
 	return result;
 }
@@ -1516,10 +1522,10 @@ int
 	}
 	if( save_result == 0 )
 	{
-		result_string_pointer = "Saving the image failed";
+		SOIL_set_result_string("Saving the image failed");
 	} else
 	{
-		result_string_pointer = "Image saved";
+		SOIL_set_result_string("Image saved");
 	}
 	return save_result;
 }
@@ -1568,20 +1574,20 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 	if( NULL == buffer )
 	{
 		/*	we can't do it!	*/
-		result_string_pointer = "NULL buffer";
+		SOIL_set_result_string("NULL buffer");
 		return 0;
 	}
 	if( buffer_length < sizeof( DDS_header ) )
 	{
 		/*	we can't do it!	*/
-		result_string_pointer = "DDS file was too small to contain the DDS header";
+		SOIL_set_result_string("DDS file was too small to contain the DDS header");
 		return 0;
 	}
 	/*	try reading in the header	*/
 	memcpy ( (void*)(&header), (const void *)buffer, sizeof( DDS_header ) );
 	buffer_index = sizeof( DDS_header );
 	/*	guilty until proven innocent	*/
-	result_string_pointer = "Failed to read a known DDS header";
+	SOIL_set_result_string("Failed to read a known DDS header");
 	/*	validate the header (warning, "goto"'s ahead, shield your eyes!!)	*/
 	flag = ('D'<<0)|('D'<<8)|('S'<<16)|(' '<<24);
 	if( header.dwMagic != flag ) {goto quick_exit;}
@@ -1609,7 +1615,7 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 		goto quick_exit;
 	}
 	/*	OK, validated the header, let's load the image data	*/
-	result_string_pointer = "DDS header loaded and validated";
+	SOIL_set_result_string("DDS header loaded and validated");
 	width = header.dwWidth;
 	height = header.dwHeight;
 	uncompressed = 1 - (header.sPixelFormat.dwFlags & DDPF_FOURCC) / DDPF_FOURCC;
@@ -1630,7 +1636,7 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 		if( query_DXT_capability() != SOIL_CAPABILITY_PRESENT )
 		{
 			/*	we can't do it!	*/
-			result_string_pointer = "Direct upload of S3TC images not supported by the OpenGL driver";
+			SOIL_set_result_string("Direct upload of S3TC images not supported by the OpenGL driver");
 			return 0;
 		}
 		/*	well, we know it is DXT1/3/5, because we checked above	*/
@@ -1657,14 +1663,14 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 		if( !loading_as_cubemap )
 		{
 			/*	we can't do it!	*/
-			result_string_pointer = "DDS image was a cubemap";
+			SOIL_set_result_string("DDS image was a cubemap");
 			return 0;
 		}
 		/*	can we even handle cubemaps with the OpenGL driver?	*/
 		if( query_cubemap_capability() != SOIL_CAPABILITY_PRESENT )
 		{
 			/*	we can't do it!	*/
-			result_string_pointer = "Direct upload of cubemap images not supported by the OpenGL driver";
+			SOIL_set_result_string("Direct upload of cubemap images not supported by the OpenGL driver");
 			return 0;
 		}
 		ogl_target_start = SOIL_TEXTURE_CUBE_MAP_POSITIVE_X;
@@ -1676,7 +1682,7 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 		if( loading_as_cubemap )
 		{
 			/*	we can't do it!	*/
-			result_string_pointer = "DDS image was not a cubemap";
+			SOIL_set_result_string("DDS image was not a cubemap");
 			return 0;
 		}
 		ogl_target_start = GL_TEXTURE_2D;
@@ -1790,13 +1796,13 @@ unsigned int SOIL_direct_load_DDS_from_memory(
 				byte_offset += mip_size;
 			}
 			/*	it worked!	*/
-			result_string_pointer = "DDS file loaded";
+			SOIL_set_result_string("DDS file loaded");
 		} else
 		{
 			glDeleteTextures( 1, & tex_ID );
 			tex_ID = 0;
 			cf_target = ogl_target_end + 1;
-			result_string_pointer = "DDS file was too small for expected image data";
+			SOIL_set_result_string("DDS file was too small for expected image data");
 		}
 	}/* end reading each face */
 	SOIL_free_image_data( DDS_data );
@@ -1848,14 +1854,14 @@ unsigned int SOIL_direct_load_DDS(
 	/*	error checks	*/
 	if( NULL == filename )
 	{
-		result_string_pointer = "NULL filename";
+		SOIL_set_result_string("NULL filename");
 		return 0;
 	}
 	f = fopen( filename, "rb" );
 	if( NULL == f )
 	{
 		/*	the file doesn't seem to exist (or be open-able)	*/
-		result_string_pointer = "Can not find DDS file";
+		SOIL_set_result_string("Can not find DDS file");
 		return 0;
 	}
 	fseek( f, 0, SEEK_END );
@@ -1864,7 +1870,7 @@ unsigned int SOIL_direct_load_DDS(
 	buffer = (unsigned char *) malloc( buffer_length );
 	if( NULL == buffer )
 	{
-		result_string_pointer = "malloc failed";
+		SOIL_set_result_string("malloc failed");
 		fclose( f );
 		return 0;
 	}
