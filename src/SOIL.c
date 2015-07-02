@@ -34,9 +34,8 @@
 #endif
 
 #include "SOIL.h"
-#define STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_STATIC
-#include "stb_image.h"
+#include "sil/image.h"
+#include "sil/image_write.h"
 #include "image_helper.h"
 #include "image_DXT.h"
 

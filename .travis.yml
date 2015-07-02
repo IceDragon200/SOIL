@@ -1,3 +1,7 @@
+language: c
+install:
+  - bash travis/build_sil.sh
+
 script:
   - mkdir -p build
-  - cd build && cmake .. && make
+  - cd build && cmake -DSIL_INCLUDE_DIR=$(cd ../SIL/include; pwd) .. && make
