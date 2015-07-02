@@ -1848,7 +1848,8 @@ unsigned int SOIL_direct_load_DDS(
 {
 	FILE *f;
 	unsigned char *buffer;
-	size_t buffer_length, bytes_read;
+	int buffer_length;
+	size_t bytes_read;
 	unsigned int tex_ID = 0;
 	/*	error checks	*/
 	if( NULL == filename )
